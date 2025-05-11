@@ -269,7 +269,7 @@ module.exports = async (Reza, m, store) => {
     }
 
     let example = (teks) => {
-      return `\n*Contoh Penggunaan :*\nketik *${cmd}* ${teks}\n`
+      return `*Contoh Penggunaan :*\nketik *${cmd}* ${teks}\n`
     }
 
     var resize = async (image, width, height) => {
@@ -389,7 +389,26 @@ Perkenalkan Saya *Telkom🇮🇩 Bot😎* By Divisi Techsmith💻 yang Siap Memb
 *乂 I N F O R M A T I O N*
 ◍ Botname : *${namabot2}*
 ◍ Uptime : *${runtime(process.uptime())}*
-◍ Total Staff GENIUS: *27*`
+◍ Total Staff GENIUS: *27*
+
+Daftar Menu:
+.add
+.kick
+.addlore
+.listlore
+.hidetag
+.tagall
+.psg
+.psg2
+.smsg
+.siaran
+.siaran1
+.techsmith
+.idolnurse
+.ambassador
+.eselon
+.grupgenius
+.geniusstaffcontact`
         // let teksnya = 'aa'
         let msgii = generateWAMessageFromContent(m.chat,
           {
@@ -6011,7 +6030,7 @@ Message From: *${staffgeniuscontact[m.sender]}*`
         await Reza.sendMessage(m.chat, { text: text })
       }
         break
-      case "staffgeniuscontact": case "sgc": {
+      case "geniusstaffcontact": case "sgc": {
         var fulltext = ""
         var count = 1
         for (g in staffgeniuscontact) {
@@ -6022,26 +6041,30 @@ Message From: *${staffgeniuscontact[m.sender]}*`
       }
         break
       case "sendmessage": case "smsg": {
+        if (!text) return SkyReply(example("nomorstaff|pesannya\nketik *.geniusstaffcontact* untuk melihat semua list kontak staff genius\nContoh Penggunaan: .smsg 20|sayang"))
+        if (!text.split("|")) return SkyReply(example("nomorstaff|pesannya\nketik *.geniusstaffcontact* untuk melihat semua list kontak staff genius\nContoh Penggunaan: .smsg 20|sayang"))
+        if (!text.split(",")) return SkyReply(example("nomorstaff|pesannya\nketik *.geniusstaffcontact* untuk melihat semua list kontak staff genius\nContoh Penggunaan: .smsg 20|sayang"))
         var resultsplit = text.split("|")[1]
         var number = text.split("|")[0].split(",")
         var reply = `Proses Mengirim Pesan Ke Nomor`
         var tujuan = ""
-        for (p of number){
+        for (p of number) {
           tujuan += `${staffgeniuscontact[Object.keys(staffgeniuscontact)[p - 1]]}\n`
         }
-        console.log (tujuan)
-        // await SkyReply(`Proses Mengirim Pesan Ke Nomor ${tujuan}`)
+        console.log(tujuan)
+        await SkyReply(`Proses Mengirim Pesan Ke Nomor ${tujuan}`)
         fulltext = `${resultsplit}
 
 Message From: *${staffgeniuscontact[m.sender]}*`
-        // for (n of number) {
-        //   var sendto = staffgeniuscontact
-        //   await Reza.sendMessage(Object.keys(staffgeniuscontact)[n - 1], { text: fulltext })
-        //   await sleep(global.delaypushkontak)
-        // }
-        // await SkyReply("Proses Selesai")
-        break
+        for (n of number) {
+          // var sendto = staffgeniuscontact
+          await Reza.sendMessage(Object.keys(staffgeniuscontact)[n - 1], { text: fulltext })
+          await sleep(global.delaypushkontak)
+        }
+        await SkyReply("Proses Selesai")
+
       }
+        break
       default:
         if (budy.startsWith('$')) {
           if (!isOwner) return
